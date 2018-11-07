@@ -6,13 +6,11 @@ const init={
 const appReducer =  (preState=init,action)=>{
     switch (action.type) {
         case SAVEUSER:{
-            return{
-                ...preState,
-                user:action.data
-            };
+            return{ ...preState, user: action.data };
 
         }
-        default: return preState;
+        default: 
+        return preState;
     }
 }
 export default appReducer;
