@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Button, Image, StatusBar, ImageBackground,Dimensions, TouchableOpacity, Navigator} from 'react-native';
+import {StyleSheet, Text, View, TextInput, Button, Image, StatusBar, ImageBackground,Dimensions, TouchableOpacity, Navigator} from 'react-native';
 import  {Actions} from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from "axios";
-import action from '../../redux/action';
-import reducer from '../../redux/reducer';
 import { connect } from 'react-redux'
-import { createStore } from 'redux'
-import {saveuser} from '../../redux/action'
 
 const iconArrowLeft = (<Icon name="angle-left" size={30} color="#4d4d4d" />);
 const iconPhone = (<Icon name="mobile" size={30} color="#ffffff" />);
@@ -16,7 +12,6 @@ const iconGoogle = (<Icon name="google-plus" size={20} color="#ffffff" />);
 const iconEmail = (<Icon name="envelope" size={15} color="#4d4d4d" />);
 const iconPassword = (<Icon name="unlock-alt" size={20} color="#4d4d4d" />);
 const  {height: HEIGHT} = Dimensions.get('window');
-import { BlurView } from 'react-native-blur';
 
 class Login extends Component<Props>{
 
@@ -59,7 +54,7 @@ class Login extends Component<Props>{
     }
 
     render (){
-         const { saveuser, user } = this.props;
+         //const { saveuser, user } = this.props;
         return(
             <ImageBackground source = {require('../../image/background1.jpeg')}
                              style={{width:'100%', height:'100%'}}>
@@ -203,9 +198,9 @@ const mapStateToProps = (state) =>({
     user:state.appReducer.user
 
 })
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => ({
     saveuser:(user) => { dispatch(saveuser(user)) }
-}
+})
 
 export default connect( mapStateToProps , mapDispatchToProps )(Login)
 

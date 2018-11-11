@@ -40,14 +40,14 @@ const instructions = Platform.select({
 const rootReducer = combineReducers({
     reducer: reducer,
 });
-let store = createStore(rootReducer);
+//let store = createStore(rootReducer);
 
 type Props = {};
 export default class App extends Component<Props> {
 
   render() {
     return (
-        <Provider store={store}>
+        //<Provider store={store}>
         <Router>
             <Scene key="root"  >
                 <Scene
@@ -110,7 +110,7 @@ export default class App extends Component<Props> {
                     hideNavBar={true}/>
             </Scene>
         </Router>
-        </Provider>
+        //</Provider>
     );
     }
 }

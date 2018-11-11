@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Button, Image, StatusBar, ImageBackground,Dimensions, TouchableOpacity,Picker} from 'react-native';
+import {StyleSheet, Text, View, TextInput, Button, Image, StatusBar, ImageBackground,Dimensions, TouchableOpacity,Picker} from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
 import {Actions} from "react-native-router-flux";
 import axios from 'axios';
-import reducer from '../../redux/reducer';
 import { connect } from 'react-redux'
-import { createStore } from 'redux'
 
 const iconArrowLeft = (<Icon name="angle-left" size={30} color="#4d4d4d" />);
 const iconPassword = (<Icon name="unlock-alt" size={20} color="#4d4d4d" />);
@@ -84,7 +82,6 @@ class UpdateInfoUser extends Component<Props>{
     }
 
     render (){
-         const { user } = this.props;
         var arrayDistrict=[];
         for (var i=0;i<this.state.district.length;i++){
             arrayDistrict.push(<Picker.Item label={this.state.district[i].name} value={this.state.district[i].id} />)
