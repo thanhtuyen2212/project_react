@@ -22,6 +22,7 @@ import BasketAll from './src/components/BasketAll/basketall';
 import DeliveryOder from './src/components/DeliveryOder/delivery_order';
 import UpdateInfoUser  from  './src/components/UpdateInfoUser/update-info-user';
 import reducer from './src/redux/reducer';
+import MapStore from './src/components/Maps/MapStore';
 
 import Icon from "react-native-vector-icons/FontAwesome";
 const iconHome =()=> (<Icon name="home" size={25} color="#2fd541" />);
