@@ -30,6 +30,7 @@ const iconBasket =()=> (<Icon name="shopping-cart" size={25} color="#2fd541" />)
 const iconDelivery =()=> (<Icon name="truck" size={25} color="#2fd541" />);
 const iconUser =()=> (<Icon name="user" size={25} color="#2fd541" />);
 const iconUpdate =()=> (<Icon name="edit" size={25} color="#2fd541" />);
+const iconDistance =()=> (<Icon name="map-marker" size={25} color="#2fd541" />);
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -61,16 +62,20 @@ export default class App extends Component<Props> {
                     //inactiveBackgroundColor = {'#fb3117'}
                 >
                     <Scene
-                        key = 'basketall'
-                        component = {BasketAll}
-                        hideNavBar={true}
-                        icon={iconBasket}
-                    />
-                    <Scene
                         key = 'merchant'
                         component = {Merchant}
                         hideNavBar={true}
                         icon={iconHome}
+                    />
+                    <Scene
+/*                        key = 'basketall'
+                        component = {BasketAll}
+                        hideNavBar={true}
+                        icon={iconBasket}*/
+                        key = 'map'
+                        component = {MapStore}
+                        hideNavBar={true}
+                        icon={iconDistance}
                     />
                     <Scene
                         key = 'basket'
@@ -83,6 +88,12 @@ export default class App extends Component<Props> {
                         component = {DeliveryOder}
                         hideNavBar={true}
                         icon = {iconDelivery}
+                    />
+                    <Scene
+                        key = 'basketall'
+                        component = {BasketAll}
+                        hideNavBar={true}
+                        icon={iconBasket}
                     />
                     <Scene
                         key = 'login'

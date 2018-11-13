@@ -11,7 +11,9 @@ const iconBell = (<Icon name="bell" size={18} color="#2fd541" />);
 const iconDistance = (<Icon name="map-marker" size={18} color="#2fd541" />);
 const iconMoney = (<Icon name="location-arrow" size={18} color="#2fd541" />);
 const iconDelivery2 = (<Icon name="truck" size={15} color="#2fd541" />);
+
 const  {height: HEIGHT} = Dimensions.get('window');
+
 
 export default class Merchant extends Component{
 
