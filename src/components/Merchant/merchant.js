@@ -11,6 +11,8 @@ const iconBell = (<Icon name="bell" size={18} color="#2fd541" />);
 const iconDistance = (<Icon name="map-marker" size={18} color="#2fd541" />);
 const iconMoney = (<Icon name="location-arrow" size={18} color="#2fd541" />);
 const iconDelivery2 = (<Icon name="truck" size={15} color="#2fd541" />);
+const iconSwitch = (<Icon name="toggle-on" size={25} color="red" />);
+
 
 const  {height: HEIGHT} = Dimensions.get('window');
 
@@ -22,56 +24,57 @@ export default class Merchant extends Component{
         this.state={
             id: '',
             name: '',
-            data1: [
-                {
-                    key: '1',
-                    name_place: 'Highlands Coffee',
-                    number_places: '22 địa điểm',
-                    distance:'2,2km',
-                    price: 'Giá 50k',
-                    sale: 'Khuyến mãi 30%',
-                    time: '30`' },
-                {
-                    key: '2',
-                    name_place: 'Trà sữa Heekcaa',
-                    number_places: '22 địa điểm',
-                    distance: '2,2km',
-                    price: 'Giá 55k',
-                    sale: 'Khuyến mãi 30%',
-                    time: '30`'},
-                {
-                    key: '3',
-                    name_place: 'Hoàng Yến Buffet',
-                    number_places: '22 địa điểm',
-                    distance: '2,2km',
-                    price: 'Giá 300k',
-                    sale: 'Khuyến mãi 30%',
-                    time: '30`' },
-                {
-                    key: '4',
-                    name_place: 'Trà sữa Gong Cha',
-                    number_places: '22 địa điểm',
-                    distance: '2,2km',
-                    price: 'Giá 50k',
-                    sale: 'Khuyến mãi 30%',
-                    time: '30`' },
-                {
-                    key: '5',
-                    name_place: 'Lẩu Tôm Càng Xiên',
-                    number_places: '22 địa điểm',
-                    distance: '2,2km',
-                    price: 'Giá 50k',
-                    sale: 'Khuyến mãi 30%',
-                    time: '30`' },
-                {
-                    key: '6',
-                    name_place: 'Bánh canh cua 14 - Trần Bình Trọng',
-                    number_places: '22 địa điểm',
-                    distance: '2,2km',
-                    price: 'Giá 50k',
-                    sale: 'Khuyến mãi 30%',
-                    time: '30`' }
-            ],
+            // data1: [
+            //     {
+            //         key: '1',
+            //         name_place: 'Highlands Coffee',
+            //         number_places: '22 địa điểm',
+            //         distance:'2,2km',
+            //         price: 'Giá 50k',
+            //         sale: 'Khuyến mãi 30%',
+            //         time: '30`' },
+            //     {
+            //         key: '2',
+            //         name_place: 'Trà sữa Heekcaa',
+            //         number_places: '22 địa điểm',
+            //         distance: '2,2km',
+            //         price: 'Giá 55k',
+            //         sale: 'Khuyến mãi 30%',
+            //         time: '30`'},
+            //     {
+            //         key: '3',
+            //         name_place: 'Hoàng Yến Buffet',
+            //         number_places: '22 địa điểm',
+            //         distance: '2,2km',
+            //         price: 'Giá 300k',
+            //         sale: 'Khuyến mãi 30%',
+            //         time: '30`' },
+            //     {
+            //         key: '4',
+            //         name_place: 'Trà sữa Gong Cha',
+            //         number_places: '22 địa điểm',
+            //         distance: '2,2km',
+            //         price: 'Giá 50k',
+            //         sale: 'Khuyến mãi 30%',
+            //         time: '30`' },
+            //     {
+            //         key: '5',
+            //         name_place: 'Lẩu Tôm Càng Xiên',
+            //         number_places: '22 địa điểm',
+            //         distance: '2,2km',
+            //         price: 'Giá 50k',
+            //         sale: 'Khuyến mãi 30%',
+            //         time: '30`' },
+            //     {
+            //         key: '6',
+            //         name_place: 'Bánh canh cua 14 - Trần Bình Trọng',
+            //         number_places: '22 địa điểm',
+            //         distance: '2,2km',
+            //         price: 'Giá 50k',
+            //         sale: 'Khuyến mãi 30%',
+            //         time: '30`' }
+            // ],
+            data1:[],
             data2:[]
         }
     }
@@ -81,6 +84,20 @@ export default class Merchant extends Component{
         ).then(response=>{
             this.setState({data2:response.data});
         })
+    }
+
+    getRestaurantByCategories(id){
+        var self = this;
+        self.setState({showProgress:true})
+        axios.get('http://food-delivery-server.herokuapp.com/restaurant/getCategory/'+id)
+            .then(response=>{
+            self.setState({data1:response.data, showProgress:false})
+        })
+            .catch(function (error) {
+                if (error.response){
+                    self.setState({error:error.response.data.msg, check:-1, showProgress:false});
+                }
+            });
     }
 
     componentWillMount()
@@ -103,8 +120,14 @@ export default class Merchant extends Component{
                                 placeholderTextColor={'#78837f'}
                             />
                         </View>
-                    </View>
 
+
+                    </View>
+                    <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>
+                        <TouchableOpacity onPress={Actions.map}>
+                            {iconSwitch}
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={{flex: 15, backgroundColor:'white'}}>
                     <FlatList horizontal={true}
@@ -112,6 +135,11 @@ export default class Merchant extends Component{
                               data={this.state.data2}
                         renderItem={this._renderItem2}
                     />
+                    {/*<FlatList*/}
+                        {/*data={this.state.data2}*/}
+                        {/*renderItem={({item, index}) => this._renderItem2(item, index)}*/}
+                        {/*keyExtractor={(item, index) => index.toString()}*/}
+                    {/*/>*/}
                 </View>
                 <View style={{flex: 5, flexDirection:'row'}}>
                     <View style={styles.headerMerchant}>
@@ -132,6 +160,11 @@ export default class Merchant extends Component{
                                 data={this.state.data1}
                                 renderItem={this._renderItem}
                         />
+                    {/*<FlatList*/}
+                        {/*data={this.state.data1}*/}
+                        {/*renderItem={({item1, index}) => this._renderItem(item1, index)}*/}
+                        {/*keyExtractor={(item1, index) => index.toString()}*/}
+                    {/*/>*/}
                 </View>
                 <View style={{flex: 10}}></View>
             </View>
@@ -144,11 +177,15 @@ export default class Merchant extends Component{
                 <View style={styles.merchant}>
                     <View style={{flex: 2.5}}>
                         <Image style={{width: '100%', height: '100%',}}
-                               source={require('../../image/image_merchant.jpg')}/>
+                               // source={require('../../image/image_merchant.jpg')}/>
+                               source={{uri:item1.image}}/>
+
                     </View>
                     <View style={{flex: 7.5}}>
                         <View style={{flex: 25, marginLeft: 10,justifyContent: 'center'}}>
-                            <Text style={styles.namePlaces}>{item.name_place}</Text>
+                            {/*<Text style={styles.namePlaces}>{item.name_place}</Text>*/}
+                            <Text style={styles.namePlaces}>{item1.name}</Text>
+
                         </View>
                         <View style={{flex: 25,flexDirection: 'row'}}>
                             <View style={{flex: 8, marginLeft: 10,justifyContent: 'center'}}>
@@ -205,7 +242,7 @@ export default class Merchant extends Component{
 
 const styles = StyleSheet.create({
     search: {
-        flex:10,
+        flex:9,
         flexDirection: 'row',
         borderWidth: 1,
         borderRadius: 12,

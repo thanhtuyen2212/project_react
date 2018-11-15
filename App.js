@@ -67,16 +67,16 @@ export default class App extends Component<Props> {
                         hideNavBar={true}
                         icon={iconHome}
                     />
-                    <Scene
-/*                        key = 'basketall'
-                        component = {BasketAll}
-                        hideNavBar={true}
-                        icon={iconBasket}*/
-                        key = 'map'
-                        component = {MapStore}
-                        hideNavBar={true}
-                        icon={iconDistance}
-                    />
+                    {/*<Scene*/}
+                        {/*key = 'basketall'*/}
+                        {/*component = {BasketAll}*/}
+                        {/*hideNavBar={true}*/}
+                        {/*icon={iconBasket}*/}
+                        {/*key = 'map'*/}
+                        {/*component = {MapStore}*/}
+                        {/*hideNavBar={true}*/}
+                        {/*icon={iconDistance}*/}
+                    {/*/>*/}
                     <Scene
                         key = 'basket'
                         component = {Basket}
@@ -119,6 +119,10 @@ export default class App extends Component<Props> {
                 <Scene
                     key = 'merchantDetail'
                     component = {MerchantDetail}
+                    hideNavBar={true}/>
+                <Scene
+                    key = 'map'
+                    component = {MapStore}
                     hideNavBar={true}/>
             </Scene>
         </Router>

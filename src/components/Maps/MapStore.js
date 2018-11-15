@@ -8,8 +8,10 @@ import {
 } from 'react-native';
 
 import MapView, { Marker, ProviderPropType, Callout } from 'react-native-maps';
-
+import Icon from "react-native-vector-icons/FontAwesome";
+import {Actions} from "react-native-router-flux";
 const { width, height } = Dimensions.get('window');
+const iconArrowLeft = (<Icon name="angle-left" size={30} color="#4d4d4d" />);
 
 const ASPECT_RATIO = width / height;
 const LATITUDE = 37.78825;
@@ -28,8 +30,10 @@ class MapStore extends React.Component {
 
     this.state = {
       region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
+        // latitude: LATITUDE,
+        // longitude: LONGITUDE,
+        latitude: 10.776530,
+        longitude: 106.700981,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
@@ -54,7 +58,10 @@ class MapStore extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <MapView
+        <View style={{flex: 1}}>
+            {iconArrowLeft}
+        </View>
+          <MapView
           provider={this.props.provider}
           style={styles.map}
           initialRegion={this.state.region}
