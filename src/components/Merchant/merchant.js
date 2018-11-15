@@ -16,12 +16,11 @@ const iconSwitch = (<Icon name="toggle-on" size={25} color="red" />);
 
 const  {height: HEIGHT} = Dimensions.get('window');
 
-
 export default class Merchant extends Component{
-
     constructor(props){
         super(props);
         this.state={
+
             id: '',
             name: '',
             // data1: [
@@ -103,6 +102,9 @@ export default class Merchant extends Component{
     componentWillMount()
     {
         this.getAllCategories();
+        //Get id of first data
+        let id = 1;
+        this.getRestaurantByCategories(id);
     }
 
     render (){
@@ -178,24 +180,24 @@ export default class Merchant extends Component{
                     <View style={{flex: 2.5}}>
                         <Image style={{width: '100%', height: '100%',}}
                                // source={require('../../image/image_merchant.jpg')}/>
-                               source={{uri:item1.image}}/>
+                               source={{uri:item.image}}/>
 
                     </View>
                     <View style={{flex: 7.5}}>
                         <View style={{flex: 25, marginLeft: 10,justifyContent: 'center'}}>
-                            {/*<Text style={styles.namePlaces}>{item.name_place}</Text>*/}
-                            <Text style={styles.namePlaces}>{item1.name}</Text>
+                            <Text style={styles.namePlaces}>{item.name_place}</Text>
+                            <Text style={styles.namePlaces}>{item.name}</Text>
 
                         </View>
                         <View style={{flex: 25,flexDirection: 'row'}}>
                             <View style={{flex: 8, marginLeft: 10,justifyContent: 'center'}}>
-                                <Text style={styles.numberPlaces}>{item.number_places}</Text>
+                                <Text style={styles.numberPlaces}>{item.idAddress}</Text>
                             </View>
                             <View style={{flex: 0.5,justifyContent: 'center'}}>
                                 {iconDistance}
                             </View>
                             <View style={{flex: 1.5,justifyContent: 'center'}}>
-                                <Text style={styles.distances}>{item.distance}</Text>
+                                <Text style={styles.distances}>{item.rating}</Text>
                             </View>
                         </View>
                         <View style={{flex: 25, flexDirection:'row'}}>
@@ -203,13 +205,13 @@ export default class Merchant extends Component{
                                 {iconMoney}
                             </View>
                             <View style={{flex: 6.8,justifyContent: 'center'}}>
-                                <Text style={{color: 'black'}}>{item.price}</Text>
+                                <Text style={{color: 'black'}}>{item.rating}</Text>
                             </View>
                             <View style={{flex: 0.9,justifyContent: 'center'}}>
                                 {iconDelivery}
                             </View>
                             <View style={{flex: 1.5,justifyContent: 'center'}}>
-                                <Text style={{color: 'black'}}>{item.time}</Text>
+                                <Text style={{color: 'black'}}>{item.timeOpen}</Text>
                             </View>
                         </View>
                         <View style={{flex: 25, flexDirection: 'row'}}>
@@ -217,7 +219,7 @@ export default class Merchant extends Component{
                                 {iconBell}
                             </View>
                             <View style={{flex: 9.2,justifyContent: 'center'}}>
-                                <Text style={{color: 'black'}}>{item.sale}</Text>
+                                <Text style={{color: 'black'}}>{item.timeClose}</Text>
                             </View>
                         </View>
                     </View>
