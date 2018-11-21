@@ -7,72 +7,23 @@ import {Actions} from "react-native-router-flux";
 import axios from "axios";
 const iconSearch = (<Icon name="search" size={25} color="#919191" />);
 const iconDelivery = (<Icon name="truck" size={18} color="#2fd541" />);
-const iconBell = (<Icon name="bell" size={18} color="#2fd541" />);
+const iconBell = (<Icon name="bell" size={18} color="blue" />);
 const iconDistance = (<Icon name="map-marker" size={18} color="#2fd541" />);
 const iconMoney = (<Icon name="location-arrow" size={18} color="#2fd541" />);
 const iconDelivery2 = (<Icon name="truck" size={15} color="#2fd541" />);
-const iconSwitch = (<Icon name="toggle-on" size={25} color="red" />);
-
+const iconStar = (<Icon name="star" size={18} color="#2fd541" />);
+const iconSwitch = (<Icon name="toggle-on" size={25} color="black" />);
 
 const  {height: HEIGHT} = Dimensions.get('window');
 
 export default class Merchant extends Component{
+
     constructor(props){
         super(props);
         this.state={
-
             id: '',
             name: '',
-            // data1: [
-            //     {
-            //         key: '1',
-            //         name_place: 'Highlands Coffee',
-            //         number_places: '22 địa điểm',
-            //         distance:'2,2km',
-            //         price: 'Giá 50k',
-            //         sale: 'Khuyến mãi 30%',
-            //         time: '30`' },
-            //     {
-            //         key: '2',
-            //         name_place: 'Trà sữa Heekcaa',
-            //         number_places: '22 địa điểm',
-            //         distance: '2,2km',
-            //         price: 'Giá 55k',
-            //         sale: 'Khuyến mãi 30%',
-            //         time: '30`'},
-            //     {
-            //         key: '3',
-            //         name_place: 'Hoàng Yến Buffet',
-            //         number_places: '22 địa điểm',
-            //         distance: '2,2km',
-            //         price: 'Giá 300k',
-            //         sale: 'Khuyến mãi 30%',
-            //         time: '30`' },
-            //     {
-            //         key: '4',
-            //         name_place: 'Trà sữa Gong Cha',
-            //         number_places: '22 địa điểm',
-            //         distance: '2,2km',
-            //         price: 'Giá 50k',
-            //         sale: 'Khuyến mãi 30%',
-            //         time: '30`' },
-            //     {
-            //         key: '5',
-            //         name_place: 'Lẩu Tôm Càng Xiên',
-            //         number_places: '22 địa điểm',
-            //         distance: '2,2km',
-            //         price: 'Giá 50k',
-            //         sale: 'Khuyến mãi 30%',
-            //         time: '30`' },
-            //     {
-            //         key: '6',
-            //         name_place: 'Bánh canh cua 14 - Trần Bình Trọng',
-            //         number_places: '22 địa điểm',
-            //         distance: '2,2km',
-            //         price: 'Giá 50k',
-            //         sale: 'Khuyến mãi 30%',
-            //         time: '30`' }
-            // ],
+            searchKey:'',
             data1:[],
             data2:[]
         }
@@ -86,12 +37,13 @@ export default class Merchant extends Component{
     }
 
     getRestaurantByCategories(id){
-        var self = this;
+        var self=this;
         self.setState({showProgress:true})
-        axios.get('http://food-delivery-server.herokuapp.com/restaurant/getCategory/'+id)
-            .then(response=>{
-            self.setState({data1:response.data, showProgress:false})
-        })
+        const url='http://food-delivery-server.herokuapp.com/restaurant/getCategory/' +id;
+        axios.get(url)
+            .then(res =>{
+                self.setState({data1:res.data,showProgress:false})
+            })
             .catch(function (error) {
                 if (error.response){
                     self.setState({error:error.response.data.msg, check:-1, showProgress:false});
@@ -102,9 +54,6 @@ export default class Merchant extends Component{
     componentWillMount()
     {
         this.getAllCategories();
-        //Get id of first data
-        let id = 1;
-        this.getRestaurantByCategories(id);
     }
 
     render (){
@@ -112,18 +61,20 @@ export default class Merchant extends Component{
             <View style={{width:'100%',height: HEIGHT, backgroundColor:'#d9d9d9'}}>
                 <View style={{flex: 10, backgroundColor: '#2fd541', flexDirection:'row'}}>
                     <View style={styles.search}>
-                        <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>
-                            {iconSearch}
+                        <View style={{flex:1,justifyContent: 'center', alignIspitems: 'center'}}>
+                            <TouchableOpacity onPress={() =>this.searchRestaurant()}>
+                                {iconSearch}
+                            </TouchableOpacity>
                         </View>
                         <View style={{flex: 9,justifyContent: 'center'}}>
                             <TextInput
                                 style={styles.textSearch}
                                 placeholder={'Tìm kiểm món ăn, tên địa điểm, địa chỉ,...'}
                                 placeholderTextColor={'#78837f'}
+                                onChangeText = {(inputsearch)=>this.setState({key:inputsearch, error:''})}
+                                value = {this.state.key}
                             />
                         </View>
-
-
                     </View>
                     <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>
                         <TouchableOpacity onPress={Actions.map}>
@@ -131,17 +82,13 @@ export default class Merchant extends Component{
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={{flex: 15, backgroundColor:'white'}}>
+
+                <View style={{flex: 17, backgroundColor:'white'}}>
                     <FlatList horizontal={true}
                               showsHorizontalScrollIndicator={false}
                               data={this.state.data2}
-                        renderItem={this._renderItem2}
+                              renderItem={this._renderItem2}
                     />
-                    {/*<FlatList*/}
-                        {/*data={this.state.data2}*/}
-                        {/*renderItem={({item, index}) => this._renderItem2(item, index)}*/}
-                        {/*keyExtractor={(item, index) => index.toString()}*/}
-                    {/*/>*/}
                 </View>
                 <View style={{flex: 5, flexDirection:'row'}}>
                     <View style={styles.headerMerchant}>
@@ -157,79 +104,71 @@ export default class Merchant extends Component{
                         <Text style={styles.text_headerMerchant}>Vừa đặt</Text>
                     </View>
                 </View>
-                <View style={{flex: 64, backgroundColor:'white', margin: 3}}>
-                        <FlatList
-                                data={this.state.data1}
-                                renderItem={this._renderItem}
-                        />
-                    {/*<FlatList*/}
-                        {/*data={this.state.data1}*/}
-                        {/*renderItem={({item1, index}) => this._renderItem(item1, index)}*/}
-                        {/*keyExtractor={(item1, index) => index.toString()}*/}
-                    {/*/>*/}
+                <View style={{flex: 58, backgroundColor:'white', margin: 3}}>
+                    <FlatList
+                        data={this.state.data1}
+                        renderItem={this._renderItem}
+                    />
                 </View>
                 <View style={{flex: 10}}></View>
             </View>
         );
     }
+
     _renderItem = ({item}) => (
-        <TouchableOpacity
-            onPress={Actions.merchantDetail}>
+        <TouchableOpacity onPress ={Actions.merchantDetail}>
             <View style={{width:'100%', backgroundColor:'#d9d9d9',height: 100}}>
                 <View style={styles.merchant}>
                     <View style={{flex: 2.5}}>
                         <Image style={{width: '100%', height: '100%',}}
-                               // source={require('../../image/image_merchant.jpg')}/>
                                source={{uri:item.image}}/>
-
                     </View>
                     <View style={{flex: 7.5}}>
-                        <View style={{flex: 25, marginLeft: 10,justifyContent: 'center'}}>
-                            <Text style={styles.namePlaces}>{item.name_place}</Text>
+                        <View style={{flex: 5, marginLeft: 10}}>
                             <Text style={styles.namePlaces}>{item.name}</Text>
-
                         </View>
-                        <View style={{flex: 25,flexDirection: 'row'}}>
-                            <View style={{flex: 8, marginLeft: 10,justifyContent: 'center'}}>
-                                <Text style={styles.numberPlaces}>{item.idAddress}</Text>
-                            </View>
-                            <View style={{flex: 0.5,justifyContent: 'center'}}>
+
+                        <View style={{flex: 2,marginLeft: 10,flexDirection: 'row' }}>
+                            <View style={{flex: 1,alignItems: 'center',justifyContent: 'center'}}>
                                 {iconDistance}
                             </View>
-                            <View style={{flex: 1.5,justifyContent: 'center'}}>
-                                <Text style={styles.distances}>{item.rating}</Text>
+                            <View style={{flex: 6}}>
+                                <Text>{item.idAddress}</Text>
+                            </View>
+                            <View style={{flex: 1,alignItems: 'center',justifyContent: 'center'}}>
+                                {iconStar}
+                            </View>
+                            <View style={{flex: 0.5,alignItems: 'center',justifyContent: 'center'}}>
+                                <Text>{item.rating}</Text>
+                            </View>
+                            <View style={{flex: 1.5}}>
+                                <Text>/5</Text>
                             </View>
                         </View>
-                        <View style={{flex: 25, flexDirection:'row'}}>
-                            <View style={{flex: 0.8, marginLeft: 10,justifyContent: 'center'}}>
-                                {iconMoney}
+                        <View style={{flex: 3,marginLeft: 10,flexDirection: 'row' }}>
+                            <View style={{flex: 2,alignItems: 'center',justifyContent: 'center'}}>
+                                <Text style={{fontSize:11}}>Mở cửa</Text>
                             </View>
-                            <View style={{flex: 6.8,justifyContent: 'center'}}>
-                                <Text style={{color: 'black'}}>{item.rating}</Text>
+                            <View style={{flex: 3,alignItems: 'center',justifyContent: 'center'}}>
+                                <Text>{item.timeOpen}</Text>
                             </View>
-                            <View style={{flex: 0.9,justifyContent: 'center'}}>
-                                {iconDelivery}
+                            <View style={{flex: 2,alignItems: 'center',justifyContent: 'center'}}>
+                                <Text style={{fontSize:11}}>Đóng cửa</Text>
                             </View>
-                            <View style={{flex: 1.5,justifyContent: 'center'}}>
-                                <Text style={{color: 'black'}}>{item.timeOpen}</Text>
-                            </View>
-                        </View>
-                        <View style={{flex: 25, flexDirection: 'row'}}>
-                            <View style={{flex: 0.8, marginLeft: 10,justifyContent: 'center'}}>
-                                {iconBell}
-                            </View>
-                            <View style={{flex: 9.2,justifyContent: 'center'}}>
-                                <Text style={{color: 'black'}}>{item.timeClose}</Text>
+                            <View style={{flex: 3,alignItems: 'center',justifyContent: 'center'}}>
+                                <Text>{item.timeClose}</Text>
                             </View>
                         </View>
                     </View>
                 </View>
-                <View style={{flex: 10}}></View>
+
             </View>
         </TouchableOpacity>
     );
 
     _renderItem2 = ({item}) => (
+        <TouchableOpacity onPress={(id) =>this.getRestaurantByCategories(item.id)}>
+
             <View style={{height: 60,width:60, margin: 10}}>
                 <View style={{flex: 95}}>
                     <Image style={{width: '100%', height: '100%'}}
@@ -239,6 +178,7 @@ export default class Merchant extends Component{
                     <Text style={{color: 'black', fontSize:11, textAlign:'center'}}>{item.name}</Text>
                 </View>
             </View>
+        </TouchableOpacity>
     );
 };
 
@@ -272,10 +212,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     merchant:{
-        flex: 90,
+        //flex: 10,
         flexDirection: 'row',
-        borderColor: 'white',
-        borderWidth: 1,
+        borderColor: '#d9d9d9',
+        borderWidth: 3,
         alignItems: 'center',
         backgroundColor:'white'
     },
