@@ -4,6 +4,7 @@ import  {Actions} from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from "axios";
 import { connect } from 'react-redux'
+import {saveuser} from "../../redux/action";
 
 const iconArrowLeft = (<Icon name="angle-left" size={30} color="#4d4d4d" />);
 const iconPhone = (<Icon name="mobile" size={30} color="#ffffff" />);
@@ -38,9 +39,12 @@ class Login extends Component<Props>{
         axios.post('http://food-delivery-server.herokuapp.com/Login',{
             email:this.state.email,
             password:this.state.password}
-        ).then(response=>{
-            saveuser(this.props.response.data.id)
-            Actions.merchant;
+        ).then(response =>{
+            console.log(response.data);
+            console.log("chuan bi luu");
+            this.props.saveuser(response.data.id)
+            console.log("xem user" +this.props.user);
+            //Actions.merchant;
         }).catch(responseError =>{
             if (responseError.response.status===400){
                 this.setState({error: 'Email hoặc mật khẩu không đúng'});

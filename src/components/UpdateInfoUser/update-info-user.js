@@ -82,6 +82,7 @@ class UpdateInfoUser extends Component<Props>{
     }
 
     render (){
+        console.log(this.props.user);
         var arrayDistrict=[];
         for (var i=0;i<this.state.district.length;i++){
             arrayDistrict.push(<Picker.Item label={this.state.district[i].name} value={this.state.district[i].id} />)
@@ -103,7 +104,7 @@ class UpdateInfoUser extends Component<Props>{
                         </View>
                         <View style={{flex:7,justifyContent: 'center', alignItems: 'center'}}>
                             {/*<Text style={styles.titleSignup}>Cập nhật thông tin tài khoản</Text>*/}
-                            <Text style={styles.titleSignup}>this.props.user</Text>
+                            <Text style={styles.titleSignup}>{this.props.user}</Text>
 
                         </View>
                     </View>
@@ -242,10 +243,11 @@ class UpdateInfoUser extends Component<Props>{
     }
 
 };
-const mapSateToProps=(state)=>({
+const mapStateToProps = (state) =>({
     user:state.appReducer.user
+
 })
-export default connect(mapSateToProps)(UpdateInfoUser)
+export default connect(mapStateToProps)(UpdateInfoUser)
 
 const styles = StyleSheet.create({
     input:{

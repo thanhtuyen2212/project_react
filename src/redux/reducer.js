@@ -7,7 +7,6 @@ const appReducer =  (preState=init,action)=>{
     switch (action.type) {
         case SAVEUSER:{
             return{ ...preState, user: action.data };
-
         }
         default: 
         return preState;
