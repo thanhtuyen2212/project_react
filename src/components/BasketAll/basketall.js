@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux'
+import {addcart, discountcart} from "../../redux/action";
 import {
     Platform,
     StyleSheet,
@@ -23,15 +25,15 @@ const iconUser = (<Icon name="user" size={25} color="white" />);
 
 const  {height: HEIGHT} = Dimensions.get('window')
 
-export default class BasketAll extends Component{
-
+class BasketAll extends Component<Props>{
     constructor(props){
         super(props);
-        this.state={
+       /* this.state={
             data: [
                 {
                     key: '1',
-                },
+                }
+                /!*,
 
                 {
                     key: '2',
@@ -39,10 +41,11 @@ export default class BasketAll extends Component{
 
                 {
                     key: '3',
-                }
+                }*!/
 
             ],
-        }
+            count: this.props.cart,
+        }*/
     }
 
     render (){
@@ -80,10 +83,42 @@ export default class BasketAll extends Component{
                 </View>
 
                 <View style={{flex: 67,justifyContent: 'center'}}>
-                    <FlatList
+{/*                    <FlatList
                         data={this.state.data}
                         renderItem={this._renderItem}
-                    />
+                    />*/}
+                    <View style={{height: 60,backgroundColor:'#f9f5ef', borderColor:'#e7e3dd',borderWidth: 1,marginLeft: 10,marginRight:10,marginTop: 5 ,marginBottom: 5,flexDirection:'row' }}>
+                        <View style={{flex: 80}}>
+                            <View style={{flex: 30,justifyContent: 'center'}}>
+                                <Text style={{color: 'black', fontWeight:'bold'}}>Trà dâu Nam Mỹ chanh vàng</Text>
+                            </View>
+                            <View style={{flex: 30,justifyContent: 'center'}}>
+                                <Text style={{color: 'black'}}>2 x 55,000đ</Text>
+                            </View>
+                            <View style={{flex: 30,justifyContent: 'center'}}>
+                                <Text style={{color: '#7a7a7a',fontStyle: 'italic'}}>Đã được đặt 2212 lần</Text>
+                            </View>
+                        </View>
+                        <View style={{flex: 20, flexDirection:'row'}}>
+                            <View style={{flex: 3,justifyContent: 'center', alignItems: 'center'}}>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.discountcart(1);
+                                }}>
+                                    {iconMinus}
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{flex: 4,justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{color: 'black'}}>{this.props.cart}</Text>
+                            </View>
+                            <View style={{flex: 3,justifyContent: 'center', alignItems: 'center'}}>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.addcart(1);
+                                }}>
+                                    {iconPlus}
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
 
                 </View>
                 <View style={{flex:6, flexDirection:'row'}}>
@@ -112,7 +147,7 @@ export default class BasketAll extends Component{
         );
     }
 
-    _renderItem = ({item}) => (
+/*    _renderItem = ({item}) => (
         <View style={{height: 60,backgroundColor:'#f9f5ef', borderColor:'#e7e3dd',borderWidth: 1,marginLeft: 10,marginRight:10,marginTop: 5 ,marginBottom: 5,flexDirection:'row' }}>
             <View style={{flex: 80}}>
                 <View style={{flex: 30,justifyContent: 'center'}}>
@@ -132,22 +167,32 @@ export default class BasketAll extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 4,justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{color: 'black'}}>1</Text>
+                    <Text style={{color: 'black'}}>{this.state.count}</Text>
                 </View>
                 <View style={{flex: 3,justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        console.log("Tang len nao");
+                        this.props.addcart(1);
+                        console.log(this.props.cart);
+                    }}>
                         {iconPlus}
                     </TouchableOpacity>
                 </View>
             </View>
-
         </View>
-    );
-
-
+    );*/
 };
-const styles = StyleSheet.create({
+
+const mapStateToProps = (state) =>({
+    cart:state.appReducer.cart
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    addcart:(cart) => { dispatch(addcart(cart)) },
+    discountcart:(cart) => { dispatch(discountcart(cart)) }
+})
+
+export default connect( mapStateToProps, mapDispatchToProps)(BasketAll)
 
 
-
-});

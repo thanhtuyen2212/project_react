@@ -14,8 +14,8 @@ const { width, height } = Dimensions.get('window');
 const iconArrowLeft = (<Icon name="angle-left" size={30} color="#4d4d4d" />);
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
+const LATITUDE = 10.776530;
+const LONGITUDE = 106.700981;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
@@ -72,36 +72,30 @@ class MapStore extends React.Component {
             }
           }
         >
-          {this.state.markers.map(marker => (
+{/*          {this.state.markers.map(marker => (
             <Marker
               draggable
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-
-
             />
-          ))}
+          ))}*/}
 
-          {/*<MapView.Marker*/}
-              {/*coordinate={{*/}
-                  {/*latitude: LATITUDE,*/}
-                  {/*longitude: LONGITUDE,*/}
-              {/*}}>*/}
-            {/*<View style={styles.radius}>*/}
-              {/*<View style ={styles.marker}/>*/}
-
-            {/*</View>*/}
-          {/*</MapView.Marker>*/}
+          <MapView.Marker
+              coordinate={{
+                  latitude: LATITUDE,
+                  longitude: LONGITUDE,
+              }}
+              title={'vn vo dich'}
+              description={'Cua hang sieu ngon'}
+              >
+          </MapView.Marker>
+{/*              <Marker
+                  title = { 'Changing Colors Garage' }
+                  position = {{ lat: 10.776530, lng: 106.700981 }}
+                  name = { 'Changing Colors Garage' }
+              />*/}
         </MapView>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.setState({ markers: [] })}
-            style={styles.bubble}
-          >
-            <Text>Tap to create a marker of random color</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }
@@ -141,25 +135,25 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     backgroundColor: 'transparent',
   },
-  // radius:{
-  //   height: 50,
-  //   width:50,
-  //   borderRadius: 50/2,
-  //   overlow:'hidden',
-  //   backgroundColor: '#3aaf24',
-  //   borderWidth: 1,
-  //   borderColor:'#e1e33a',
-  //   alignItems:'center',
-  //   justifyContent: 'center',
-  // },
-  // marker:{
-  //   height: 20,
-  //   width:20,
-  //   borderWidth: 3,
-  //   borderColor: 'white',
-  //   borderRadius: 20/2,
-  //   overflow:'hidden',
-  //   backgroundColor:'#f8241e'
-  // },
+  /*radius:{
+    height: 50,
+    width:50,
+    borderRadius: 50/2,
+    overlow:'hidden',
+    backgroundColor: '#3aaf24',
+    borderWidth: 1,
+    borderColor:'#e1e33a',
+    alignItems:'center',
+    justifyContent: 'center',
+  },
+  marker:{
+    height: 20,
+    width:20,
+    borderWidth: 3,
+    borderColor: 'white',
+    borderRadius: 20/2,
+    overflow:'hidden',
+    backgroundColor:'#f8241e'
+  },*/
 });
 export default MapStore;
