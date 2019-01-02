@@ -3,7 +3,9 @@ import {StyleSheet, Text, View, TextInput, Button, Image, StatusBar, ImageBackgr
 import Icon from "react-native-vector-icons/FontAwesome";
 import {Actions} from "react-native-router-flux";
 import axios from 'axios';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { updateUser } from '../../components/Login/AuthenticationAction';
+
 
 const iconArrowLeft = (<Icon name="angle-left" size={30} color="#4d4d4d" />);
 const iconPassword = (<Icon name="unlock-alt" size={20} color="#4d4d4d" />);
@@ -26,6 +28,53 @@ class UpdateInfoUser extends Component<Props>{
         }
     }
 
+
+    btnUpdate = () =>{
+        //console.log(this.state.email)
+        if(this.state.email==='') {
+            this.setState({error: 'Vui lòng nhập email của bạn!'});
+            return
+        }
+        if(this.state.password==='') {
+            this.setState({error: 'Vui lòng nhập password của bạn!'});
+            return
+        }
+
+        axios.post('http://food-delivery-server.herokuapp.com/Login',{
+            email:this.state.email,
+            password:this.state.password}
+        ).then(response =>{
+            console.log(response.data);
+            console.log("chuan bi luu");
+            this.props.saveuser(response.data.id);
+
+            Actions.merchant;
+        }).catch(responseError =>{
+            if (responseError.response.status===400){
+                this.setState({error: 'Email hoặc mật khẩu không đúng'});
+                return
+            }
+            if (responseError.response.status===401){
+                this.setState({error: 'Tài khoản chưa được xác thực'});
+                return
+            }
+        })
+    }
+
+    getUserInfo() {
+        axios.get('http://food-delivery-server.herokuapp.com/getinfo',null, {
+                headers: {
+                    Token: this.props.token
+                }
+            }
+        ).then(response=>{
+            console.log(response);
+            this.props.updateUser(response.data);
+        }).catch(error=>{
+
+        })
+    }
+
     getDistrict(){
         axios.get('http://food-delivery-server.herokuapp.com/district/getAll'
         ).then(response=>{
@@ -35,6 +84,8 @@ class UpdateInfoUser extends Component<Props>{
 
     componentWillMount(){
         this.getDistrict();
+        this.getUserInfo();
+
     }
 
     btnUpdateInfoUser = () =>{
@@ -82,7 +133,6 @@ class UpdateInfoUser extends Component<Props>{
     }
 
     render (){
-        console.log(this.props.user);
         var arrayDistrict=[];
         for (var i=0;i<this.state.district.length;i++){
             arrayDistrict.push(<Picker.Item label={this.state.district[i].name} value={this.state.district[i].id} />)
@@ -103,8 +153,7 @@ class UpdateInfoUser extends Component<Props>{
                             </TouchableOpacity>
                         </View>
                         <View style={{flex:7,justifyContent: 'center', alignItems: 'center'}}>
-                            {/*<Text style={styles.titleSignup}>Cập nhật thông tin tài khoản</Text>*/}
-                            <Text style={styles.titleSignup}>{this.props.user}</Text>
+                            <Text style={styles.titleSignup}>{this.props.userInfo.email}</Text>
 
                         </View>
                     </View>
@@ -166,12 +215,12 @@ class UpdateInfoUser extends Component<Props>{
                                     {arrayWard}
                                 </Picker>
                                 {/*<TextInput*/}
-                                    {/*autoCapitalize={'none'}*/}
-                                    {/*style = {{color: 'black'}}*/}
-                                    {/*placeholder={'Địa chỉ của bạn (Phường)'}*/}
-                                    {/*placeholderTextColor={'#6f6f6f'}*/}
-                                    {/*onChangeText = {(inputpIDWard)=>this.setState({idWard:inputpIDWard, error:''})}*/}
-                                    {/*value = {this.state.idWard}*/}
+                                {/*autoCapitalize={'none'}*/}
+                                {/*style = {{color: 'black'}}*/}
+                                {/*placeholder={'Địa chỉ của bạn (Phường)'}*/}
+                                {/*placeholderTextColor={'#6f6f6f'}*/}
+                                {/*onChangeText = {(inputpIDWard)=>this.setState({idWard:inputpIDWard, error:''})}*/}
+                                {/*value = {this.state.idWard}*/}
                                 {/*/>*/}
                             </View>
                         </View>
@@ -243,11 +292,23 @@ class UpdateInfoUser extends Component<Props>{
     }
 
 };
-const mapStateToProps = (state) =>({
-    user:state.appReducer.user
+// const mapStateToProps = (state) =>({
+//     // user:state.appReducer.user
+//     userInfo: state.loginReducer.userInfo,
+//
+// })
+// export default connect(mapStateToProps)(UpdateInfoUser)
 
+const mapStateToProps = (state) => ({
+    userInfo: state.loginReducer.userInfo,
+    token: state.loginReducer.accessToken
 })
-export default connect(mapStateToProps)(UpdateInfoUser)
+
+const mapDispathToProps = (dispatch) => ({
+    updateUser: (userInfo) => {dispatch(updateUser(userInfo))}
+})
+
+export default connect (mapStateToProps, mapDispathToProps) (UpdateInfoUser);
 
 const styles = StyleSheet.create({
     input:{

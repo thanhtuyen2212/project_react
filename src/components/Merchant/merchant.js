@@ -5,6 +5,7 @@ import {Platform, StyleSheet, Text, View, TextInput,
 import Icon from "react-native-vector-icons/FontAwesome";
 import {Actions} from "react-native-router-flux";
 import axios from "axios";
+import {AsyncStorage} from 'react-native';
 const iconSearch = (<Icon name="search" size={25} color="#919191" />);
 const iconDelivery = (<Icon name="truck" size={18} color="#2fd541" />);
 const iconBell = (<Icon name="bell" size={18} color="blue" />);
@@ -23,7 +24,7 @@ export default class Merchant extends Component{
         this.state={
             id: '',
             name: '',
-            searchKey:'',
+            key:'',
             data1:[],
             data2:[]
         }
@@ -51,9 +52,36 @@ export default class Merchant extends Component{
             });
     }
 
+    searchRestaurant(){
+        var self=this;
+        // alert(this.state.key)
+        self.setState({showProgress:true})
+        const url = 'http://food-delivery-server.herokuapp.com/restaurant/search?name='+this.state.key;
+        axios.get(url)
+            .then(res => {
+                self.setState({data1:res.data, showProgress:false})
+            })
+            .catch(function (error) {
+                if (error.response){
+                    self.setState({error:error.response.data.msg, check:-1, showProgress:false});
+                }
+            })
+    }
+
+    _storageData = async (id) => {
+        // alert(id);
+        await AsyncStorage.setItem('id',id.toString());
+    }
+    getMenuRestaurant(id) {
+        this._storageData(id)
+        Actions.merchantDetail();
+    }
+
     componentWillMount()
     {
         this.getAllCategories();
+        // this.getRestaurantByCategories(2);
+        this.searchRestaurant();
     }
 
     render (){
@@ -71,23 +99,25 @@ export default class Merchant extends Component{
                                 style={styles.textSearch}
                                 placeholder={'Tìm kiểm món ăn, tên địa điểm, địa chỉ,...'}
                                 placeholderTextColor={'#78837f'}
-                                onChangeText = {(inputsearch)=>this.setState({key:inputsearch, error:''})}
+                                onChangeText = {(inputsearch)=>this.setState({key:inputsearch})}
                                 value = {this.state.key}
                             />
                         </View>
                     </View>
-                    <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>
-                        <TouchableOpacity onPress={Actions.map}>
-                            {iconSwitch}
-                        </TouchableOpacity>
-                    </View>
+                    {/*<View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>*/}
+                        {/*/!*<TouchableOpacity onPress={Actions.map}>*!/*/}
+                        {/*<TouchableOpacity onPress ={Actions.map}>*/}
+
+                        {/*{iconSwitch}*/}
+                        {/*</TouchableOpacity>*/}
+                    {/*</View>*/}
                 </View>
 
                 <View style={{flex: 17, backgroundColor:'white'}}>
                     <FlatList horizontal={true}
                               showsHorizontalScrollIndicator={false}
                               data={this.state.data2}
-                              renderItem={this._renderItem2}
+                        renderItem={this._renderItem2}
                     />
                 </View>
                 <View style={{flex: 5, flexDirection:'row'}}>
@@ -100,23 +130,23 @@ export default class Merchant extends Component{
                     <View style={styles.headerMerchant}>
                         <Text style={styles.text_headerMerchant}>Gần tôi</Text>
                     </View>
-                    <View style={styles.headerMerchant}>
-                        <Text style={styles.text_headerMerchant}>Vừa đặt</Text>
-                    </View>
+                    <TouchableOpacity style={styles.headerMerchant}>
+                        <Text style={styles.text_headerMerchant} onPress ={Actions.map}>MapView</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={{flex: 58, backgroundColor:'white', margin: 3}}>
-                    <FlatList
-                        data={this.state.data1}
-                        renderItem={this._renderItem}
-                    />
+                <View style={{flex: 68, backgroundColor:'white', margin: 3}}>
+                        <FlatList
+                                data={this.state.data1}
+                                renderItem={this._renderItem}
+                        />
                 </View>
                 <View style={{flex: 10}}></View>
             </View>
-        );
+    );
     }
 
     _renderItem = ({item}) => (
-        <TouchableOpacity onPress ={Actions.merchantDetail}>
+        <TouchableOpacity onPress ={(id) => this.getMenuRestaurant(item.id)}>
             <View style={{width:'100%', backgroundColor:'#d9d9d9',height: 100}}>
                 <View style={styles.merchant}>
                     <View style={{flex: 2.5}}>
@@ -161,7 +191,6 @@ export default class Merchant extends Component{
                         </View>
                     </View>
                 </View>
-
             </View>
         </TouchableOpacity>
     );
@@ -169,13 +198,13 @@ export default class Merchant extends Component{
     _renderItem2 = ({item}) => (
         <TouchableOpacity onPress={(id) =>this.getRestaurantByCategories(item.id)}>
 
-            <View style={{height: 60,width:60, margin: 10}}>
+        <View style={{height: 60,width:60, margin: 10}}>
                 <View style={{flex: 95}}>
                     <Image style={{width: '100%', height: '100%'}}
                            source={{uri:item.image}}/>
                 </View>
                 <View style={{flex: 5}}>
-                    <Text style={{color: 'black', fontSize:11, textAlign:'center'}}>{item.name}</Text>
+                        <Text style={{color: 'black', fontSize:11, textAlign:'center'}}>{item.name}</Text>
                 </View>
             </View>
         </TouchableOpacity>

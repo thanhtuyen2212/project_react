@@ -125,7 +125,7 @@ export default class Basket extends Component{
                 </View>
                 <View style={{flex: 6, flexDirection:'row',backgroundColor:'#072bba',justifyContent: 'center', alignItems: 'center'}}>
                     <View style={{flex: 5, marginLeft: 10}}>
-                        <TouchableOpacity onPress={Actions.deliveryOrder}>
+                        <TouchableOpacity onPress={Actions.basketall}>
                             <Text style={{color: 'white', fontWeight: 'bold', textAlign:'left'}}>Thêm vào giỏ</Text>
                         </TouchableOpacity>
                     </View>
