@@ -58,19 +58,18 @@ export default class App extends Component<Props> {
                                 //activeTintColor = {'#fb3117'}
                                 //inactiveBackgroundColor = {'#fb3117'}
                             >
-
                                 <Scene
                                     key = 'merchant'
                                     component = {Merchant}
                                     hideNavBar={true}
                                     icon={iconHome}
                                 />
-                                <Scene
+{/*                                <Scene
                                     key = 'deliveryOrder'
                                     component = {DeliveryOder}
                                     hideNavBar={true}
                                     icon = {iconDelivery}
-                                />
+                                />*/}
                                 <Scene
                                     key = 'basketall'
                                     component = {BasketAll}
@@ -102,6 +101,10 @@ export default class App extends Component<Props> {
                                     icon = {iconUser}
                                 />
                             </Scene>
+                            <Scene
+                                key = 'deliveryOrder'
+                                component = {DeliveryOder}
+                                hideNavBar={true}/>
                             <Scene
                                 key = 'sign_up'
                                 component = {Register}

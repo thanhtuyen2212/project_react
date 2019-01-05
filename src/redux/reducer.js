@@ -7,6 +7,7 @@ import {UPDATEBASKET} from "./action";
 
 const init={
     user:'',
+    // cart: 0,
     cart: [],
     idres: '',
     total: 0
@@ -17,7 +18,7 @@ const appReducer =  (preState=init,action)=>{
             return{ ...preState, user: action.data };
         }
         case CART: {
-            return {...preState, cart: (preState.cart == null ? [] : preState.cart) + action.data }
+            return {...preState, cart: preState.cart + action.data }
         }
         case DISCOUNTCART: {
             if((preState.cart - action.data) >= 0)
@@ -29,7 +30,7 @@ const appReducer =  (preState=init,action)=>{
             let isfound = false;
             let total = preState.total;
             let cart = preState.cart.map((item) => {
-                if (item.id !== null && item.id === action.item.id) {
+                if (item.id === action.item.id) {
                     item.qty++;
                     total += item.price;
                     isfound = true;
@@ -59,12 +60,11 @@ const appReducer =  (preState=init,action)=>{
             return {
                 ...preState,
                 cart: preState.cart.map((item) => {
-                    if (item.id !== null && item.id === action.item.id) {
+                    if (item.id === action.item.id) {
                         if (action.method === "+") {
                             item.qty ++;
                             preState.total += item.price;
-                        } else if (action.method === "-" && item.qty > 1 && (
-                            preState.total - item.price) >= 0) {
+                        } else if (action.method === "-" && item.qty > 1) {
                             item.qty --;
                             preState.total -= item.price;
                         }

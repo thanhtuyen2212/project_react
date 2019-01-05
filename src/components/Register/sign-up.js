@@ -21,7 +21,6 @@ export default class Register extends Component{
     }
 
     btnregister = () =>{
-        //console.log(this.state.email)
         if(this.state.email==='') {
             this.setState({error: 'Vui lòng nhập email của bạn!'});
             return
@@ -42,7 +41,7 @@ export default class Register extends Component{
             email:this.state.email,
             password:this.state.password}
         ).then(response=>{
-            Actions.merchant;
+            Actions.merchant();
         }).catch(responseError =>{
             if (responseError.response.status===400){
                 this.setState({error: 'email đã tồn tại'});

@@ -112,11 +112,12 @@ class DeliveryOder extends Component{
                 <View style={{flex: 25}}>
                     {/*<Image style={{width: '100%', height: '100%',}}*/}
                            {/*source={require('../../image/image_map.jpg')}/>*/}
+
                     <MapView
                         provider={this.props.provider}
                         style={{flex:8.7,backgroundColor: '#fff',width:500,height:500}}
                         initialRegion={this.state.region}
-                        onReg   ionChange={region => {
+                        onRegionChange={region => {
                             this.onRegionChange(region)
                         }}>
                         {this.state.markers.map(marker => (

@@ -40,6 +40,7 @@ class Merchantdetail extends Component{
             .then(res =>{
                 self.setState({
                     // menu:res.data.menu,showProgress:false,
+
                     menuRestaurant:res.data.menu,
                     restaurant:res.data.restaurant,
                     address:res.data.address,
@@ -56,8 +57,11 @@ class Merchantdetail extends Component{
     }
 
     getVideo() {
-        for (var i = 0; i < this.state.resource.length; i++) {
-            if (this.state.resource[i].type == "video") return this.state.resource[i].url;
+        for (let i = 0; i < this.state.resource.length; i++) {
+            if (this.state.resource[i].type == "video") {
+                console.log(this.state.resource[i].url)
+                return this.state.resource[i].url;
+            }
         }
     }
 
@@ -138,7 +142,7 @@ class Merchantdetail extends Component{
 
                     <View style={{flex: 25}}>
                         <FlatList
-                            data={this.state.menuRestaurant == null ? [] : this.state.menuRestaurant}
+                            data={this.state.menuRestaurant}
                             renderItem={this._renderItem}
                         />
                     </View>
@@ -154,43 +158,29 @@ class Merchantdetail extends Component{
 
     _renderItem = ({item}) => (
         <View style={styles.detail}>
-            {
-                item == null ? "" :
-                <View style={{flex: 3}}>
-                    <Image style={{width: '100%', height: '100%'}}
-                           source={{uri: item.image}}/>
-                </View>
-            }
+            <View style={{flex: 3}}>
+                <Image style={{width: '100%', height: '100%'}}
+                       source={{uri:item.image}}/>
+            </View>
             <View style={{flex: 7}}>
-                {
-                    item == null ? "" :
-                    <View style={{flex: 30, marginLeft: 10, justifyContent: 'center'}}>
-                        <Text style={styles.text_name_place}>{item.name}</Text>
+                <View style={{flex: 30, marginLeft: 10,justifyContent: 'center'}}>
+                    <Text style={styles.text_name_place}>{item.name}</Text>
+                </View>
+                <View style={{flex: 30,flexDirection: 'row'}}>
+                    <View style={{flex: 9, marginLeft: 10,justifyContent: 'center'}}>
+                        <Text style={{color: '#072bba'}}>{item.price}</Text>
                     </View>
-                }
-                {
-                    item == null ? "" :
-                    <View style={{flex: 30, flexDirection: 'row'}}>
-                        <View style={{flex: 9, marginLeft: 10, justifyContent: 'center'}}>
-                            <Text style={{color: '#072bba'}}>{item.price}</Text>
-                        </View>
-                        <View style={{flex: 1, justifyContent: 'center'}}>
-                            {/*<TouchableOpacity onPress={Actions.basket}>*/}
-                            <TouchableOpacity onPress={() => {
-                                this.addtobasket(item)
-                            }}>
-                                {iconPlus}
-                            </TouchableOpacity>
-                        </View>
+                    <View style={{flex: 1,justifyContent: 'center'}}>
+                        {/*<TouchableOpacity onPress={Actions.basket}>*/}
+                        <TouchableOpacity onPress={()=>{this.addtobasket(item)}} >
+                        {iconPlus}
+                        </TouchableOpacity>
                     </View>
-                }
-                {
-                    item == null ? "" :
-                    <View style={{flex: 30, flexDirection: 'row', marginLeft: 10}}>
+                </View>
+                <View style={{flex: 30, flexDirection:'row', marginLeft: 10}}>
 
-                        <Text style={{color: '#7a7a7a', fontStyle: 'italic'}}>Đã được đặt {item.sold} lần</Text>
-                    </View>
-                }
+                    <Text style={{color: '#7a7a7a',fontStyle: 'italic'}}>Đã được đặt {item.sold} lần</Text>
+                </View>
             </View>
         </View>
     );
@@ -202,7 +192,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispathToProps = (dispatch) => ({
-    savebasket: (item) => {dispatch(savebasket(item == null ? []: item))},
+    savebasket: (item) => {dispatch(savebasket(item))},
 })
 
 export default connect (mapStateToProps, mapDispathToProps) (Merchantdetail)
@@ -217,16 +207,6 @@ const styles = StyleSheet.create({
     textBody:{
         color: '#575757',
     },
-    // address: {
-    //     flex: 75,
-    //     backgroundColor: '#d9d9d9',
-    //     borderColor: '#dfdbd5',
-    //     borderWidth: 1,
-    //     alignItems: 'center',
-    //     marginLeft: 5,
-    //     marginRight:5,
-    //     marginBottom: 10
-    // },
     detail:{
         height: 80,
         flexDirection: 'row',

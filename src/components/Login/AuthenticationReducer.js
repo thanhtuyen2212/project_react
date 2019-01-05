@@ -3,7 +3,7 @@ import { AUTHENTICATION_REQUEST, AUTHENTICATION_SUCCESS, AUTHENTICATION_FAILURE,
 const initialState = {
     isAuthenticating: false,
     isAuthenticated: false,
-    userInfo: {},
+    userInfo: null,
     accessToken: null,
     idUser:null
 }
@@ -16,9 +16,9 @@ const authenticationReducer = (state = initialState, action) => {
                 isAuthenticating: false,
                 isAuthenticated: true,
                 userInfo: {
-                    email: action.data == null ? null : action.data.email,
+                    email: action.data !== null ? action.data.email : null,
                 },
-                accessToken: action.data == null ? null : action.data.token,
+                accessToken: action.data !== null ? action.data.token : null,
             };
         }
         case AUTHENTICATION_REQUEST:

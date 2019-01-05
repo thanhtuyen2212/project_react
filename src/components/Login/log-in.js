@@ -27,7 +27,6 @@ class Login extends Component<Props>{
     }
 
     btnLogin = () =>{
-        //console.log(this.state.email)
         if(this.state.email==='') {
             this.setState({error: 'Vui lòng nhập email của bạn!'});
             return
@@ -44,6 +43,7 @@ class Login extends Component<Props>{
             password:this.state.password}
         ).then(response =>{
             console.log(response.data);
+            console.log("chuan bi luu");
             this.props.auth_succ(response.data);
             Actions.merchant();
         }).catch(responseError =>{
@@ -61,6 +61,7 @@ class Login extends Component<Props>{
     }
 
     render (){
+        //const { saveuser, user } = this.props;
         return(
             <ImageBackground source = {require('../../image/background1.jpeg')}
                              style={{width:'100%', height:'100%'}}>
@@ -205,12 +206,11 @@ class Login extends Component<Props>{
 };
 
 const mapStateToProps = (state) =>({
-    user:state.appReducer.user,
     isAuthenticating: state.loginReducer.isAuthenticating,
     isAuthenticated: state.loginReducer.isAuthenticated
 })
 const mapDispatchToProps = (dispatch) => ({
-    //saveuser:(user) => { dispatch(saveuser(user)) },
+    saveuser:(user) => { dispatch(saveuser(user)) },
     auth_req: () => {dispatch(auth_req())},
     auth_succ: (data) => {dispatch(auth_succ(data))},
     auth_fail: () => {dispatch(auth_fail())}

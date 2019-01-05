@@ -113,11 +113,20 @@ class UpdateInfoUser extends Component<Props>{
             this.setState({error: 'Vui lòng nhập địa chỉ của bạn (Đường)'});
             return
         }
-        axios.post('http://food-delivery-server.herokuapp.com/Update',{
-            email:this.state.email,
-            password:this.state.password}
-        ).then(response=>{
-            Actions.merchant;
+        const AuthStr = 'Bearer '.concat(this.props.token);
+        let arrayInfor = {
+            phone: this.state.phone,
+            idDistrict: this.state.selectDistrict,
+            idWard: this.state.selectWard,
+            street	: this.state.street,
+            userName: "",
+        };
+        console.log(arrayInfor);
+        console.log(AuthStr);
+        axios.post('http://food-delivery-server.herokuapp.com/updateInfo', arrayInfor, {headers: {Authorization: AuthStr}}
+        ).then(response => {
+            console.log(response);
+            Actions.merchant();
         }).catch(responseError =>{
             if (responseError.response.status===400){
                 this.setState({error: 'Đã xảy ra lỗi'});
@@ -127,6 +136,7 @@ class UpdateInfoUser extends Component<Props>{
                 this.setState({error: 'Không phải chủ tài khoản'});
                 return
             }
+            console.log(responseError);
             //this.setState({error: 'Đăng kí thành công. Bạn đã có tài khoản tại Food-Delivery'});
             //return
         })
@@ -153,7 +163,8 @@ class UpdateInfoUser extends Component<Props>{
                             </TouchableOpacity>
                         </View>
                         <View style={{flex:7,justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={styles.titleSignup}>{this.props.userInfo.email}</Text>
+
+                            <Text style={styles.titleSignup}>{ this.props.userInfo == null ? '': (this.props.userInfo.email == null ? '': this.props.userInfo.email)}</Text>
 
                         </View>
                     </View>
@@ -292,16 +303,13 @@ class UpdateInfoUser extends Component<Props>{
     }
 
 };
-// const mapStateToProps = (state) =>({
-//     // user:state.appReducer.user
-//     userInfo: state.loginReducer.userInfo,
-//
-// })
-// export default connect(mapStateToProps)(UpdateInfoUser)
+
 
 const mapStateToProps = (state) => ({
     userInfo: state.loginReducer.userInfo,
-    token: state.loginReducer.accessToken
+    token: state.loginReducer.accessToken,
+    key: state.loginReducer.key,
+    value: state.loginReducer.value
 })
 
 const mapDispathToProps = (dispatch) => ({

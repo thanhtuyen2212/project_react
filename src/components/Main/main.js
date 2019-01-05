@@ -48,8 +48,10 @@ class Main extends Component<Props>{
                         {iconUser}
                     </View>
                     <TouchableOpacity style={{flex: 70}} onPress={Actions.login}>
-                        {/*<Text style={{color:'white'}}>Đăng nhập</Text>*/}
-                        <Text style={{color:'white'}}>{ this.props.userInfo.email == null ? 'Đăng nhập' : (typeof this.props.userInfo.username === 'undefined' ? this.props.userInfo.email : this.props.userInfo.username) }</Text>
+                        <Text style={{color:'white'}}>{ this.props.userInfo == null ? 'Đăng nhập': (this.props.userInfo.email == null ? 'Đăng nhập': this.props.userInfo.email)} </Text>
+                       {/* <Text style={{color:'white'}}>{ this.props.userInfo == null ? 'Đăng nhập': "juju"
+                           /* (this.props.userInfo.email == null ? 'Đăng nhập':
+                                this.props.userInfo.email) }</Text>*/}
 
                     </TouchableOpacity>
                     <View style={{flex: 10}}>
@@ -59,7 +61,7 @@ class Main extends Component<Props>{
                 </View>
                 <View style={{flex: 86}}>
                     {
-                        this.props.userInfo.email == null ? null :
+                        this.props.userInfo == null ? null : (this.props.userInfo.email == null ? null:
                             <View style={{flex: 16, marginTop: 5}}>
                                 <TouchableOpacity style={styles.title}>
                                     <View style={{flex: 15, alignItems: 'center',}}>
@@ -84,10 +86,11 @@ class Main extends Component<Props>{
                                     </View>
                                 </TouchableOpacity>
                             </View>
+                        )
                     }
                     {
-                        this.props.userInfo.email == null ? null :
-                        <View style={{flex: 8, marginTop: 5}}>
+                        this.props.userInfo == null ? null : (this.props.userInfo.email == null ? null:
+                            <View style={{flex: 8, marginTop: 5}}>
                             <TouchableOpacity style={styles.title}>
                                 <View style={{flex: 15, alignItems: 'center',}}>
                                     {feedback}
@@ -101,9 +104,10 @@ class Main extends Component<Props>{
                             </TouchableOpacity>
 
                         </View>
+                        )
                     }
                     {
-                        this.props.userInfo.email == null ? null :
+                        this.props.userInfo == null ? null : (this.props.userInfo.email == null ? null:
                         <View style={{flex: 24, marginTop: 5}}>
                             <TouchableOpacity style={styles.title}>
                                 <View style={{flex: 15, alignItems: 'center',}}>
@@ -143,6 +147,7 @@ class Main extends Component<Props>{
                                 </View>
                             </TouchableOpacity>
                         </View>
+                        )
                     }
                     <View style={{flex: 38}}>
                     </View>
