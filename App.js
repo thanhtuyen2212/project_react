@@ -24,6 +24,8 @@ import UpdateInfoUser  from  './src/components/UpdateInfoUser/update-info-user';
 import MapStore from './src/components/Map/MapStore';
 import Main from './src/components/Main/main';
 import Setting from './src/components/Setting/set-ting';
+import SuccessUpdate from './src/components/SuccessUpdate/success-update';
+
 
 import Icon from "react-native-vector-icons/FontAwesome";
 const iconHome =()=> (<Icon name="home" size={25} color="#2fd541" />);
@@ -135,6 +137,11 @@ export default class App extends Component<Props> {
                                 component = {Login}
                                 hideNavBar={true}
                                 icon = {iconUser}
+                            />
+                            <Scene
+                                key = 'successUpdate'
+                                component = {SuccessUpdate}
+                                hideNavBar={true}
                             />
                         </Scene>
                     </Router>

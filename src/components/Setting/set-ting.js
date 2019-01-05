@@ -82,7 +82,7 @@ export default class Setting extends Component<Props>{
                                 {iconArrowRight1}
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.title}>
+                        <TouchableOpacity style={styles.title} onPress={Actions.successUpdate}>
                             <View style={{flex: 15,alignItems: 'center', }}>
                                 {infoUser}
                             </View>
