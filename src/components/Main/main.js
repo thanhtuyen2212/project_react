@@ -166,7 +166,6 @@ class Main extends Component<Props>{
 
 const mapStateToProps = (state) => ({
     token: state.loginReducer.token,
-
     userInfo: state.loginReducer.userInfo
 })
 

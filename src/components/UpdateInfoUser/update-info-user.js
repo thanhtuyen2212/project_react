@@ -20,45 +20,13 @@ class UpdateInfoUser extends Component<Props>{
         this.state={
             password: '',
             phone:'',
-            selectDistrict:'123',
-            selectWard:'34',
+            username:'',
+            selectDistrict:'',
+            selectWard:'',
             district:[],
             ward:[],
             street:'',
         }
-    }
-
-
-    btnUpdate = () =>{
-        //console.log(this.state.email)
-        if(this.state.email==='') {
-            this.setState({error: 'Vui lòng nhập email của bạn!'});
-            return
-        }
-        if(this.state.password==='') {
-            this.setState({error: 'Vui lòng nhập password của bạn!'});
-            return
-        }
-
-        axios.post('http://food-delivery-server.herokuapp.com/Login',{
-            email:this.state.email,
-            password:this.state.password}
-        ).then(response =>{
-            console.log(response.data);
-            console.log("chuan bi luu");
-            this.props.saveuser(response.data.id);
-
-            Actions.merchant;
-        }).catch(responseError =>{
-            if (responseError.response.status===400){
-                this.setState({error: 'Email hoặc mật khẩu không đúng'});
-                return
-            }
-            if (responseError.response.status===401){
-                this.setState({error: 'Tài khoản chưa được xác thực'});
-                return
-            }
-        })
     }
 
     getUserInfo() {
@@ -89,12 +57,8 @@ class UpdateInfoUser extends Component<Props>{
     }
 
     btnUpdateInfoUser = () =>{
-        if(this.state.password==='') {
-            this.setState({error: 'Vui lòng nhập mật khẩu của bạn!'});
-            return
-        }
-        if(this.state.password.length<=6) {
-            this.setState({error: 'Mật khẩu phải lớn hơn 6 kí tự'});
+        if(this.state.username==='') {
+            this.setState({error: 'Vui lòng nhập tên của bạn!'});
             return
         }
         if(this.state.phone==='') {
@@ -119,10 +83,8 @@ class UpdateInfoUser extends Component<Props>{
             idDistrict: this.state.selectDistrict,
             idWard: this.state.selectWard,
             street	: this.state.street,
-            userName: "",
+            userName: this.state.username,
         };
-        console.log(arrayInfor);
-        console.log(AuthStr);
         axios.post('http://food-delivery-server.herokuapp.com/updateInfo', arrayInfor, {headers: {Authorization: AuthStr}}
         ).then(response => {
             console.log(response);
@@ -137,8 +99,6 @@ class UpdateInfoUser extends Component<Props>{
                 return
             }
             console.log(responseError);
-            //this.setState({error: 'Đăng kí thành công. Bạn đã có tài khoản tại Food-Delivery'});
-            //return
         })
     }
 
@@ -171,17 +131,16 @@ class UpdateInfoUser extends Component<Props>{
                     <View style={{flex:40}}>
                         <View style={styles.input}>
                             <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>
-                                {iconPassword}
+                                {iconDistance}
                             </View>
                             <View style={{flex: 9}}>
                                 <TextInput
                                     autoCapitalize={'none'}
-                                    secureTextEntry={true}
                                     style = {{color: 'black'}}
-                                    placeholder={'Mật khẩu của bạn'}
+                                    placeholder={'Tên của bạn'}
                                     placeholderTextColor={'#6f6f6f'}
-                                    onChangeText = {(inputpassword)=>this.setState({password:inputpassword, error:''})}
-                                    value = {this.state.password}
+                                    onChangeText = {(inputName)=>this.setState({username:inputName, error:''})}
+                                    value = {this.state.username}
                                 />
                             </View>
                         </View>
@@ -225,14 +184,6 @@ class UpdateInfoUser extends Component<Props>{
                                     onValueChange={(itemValue, itemIndex) => this.setState({selectWard: itemValue})}>
                                     {arrayWard}
                                 </Picker>
-                                {/*<TextInput*/}
-                                {/*autoCapitalize={'none'}*/}
-                                {/*style = {{color: 'black'}}*/}
-                                {/*placeholder={'Địa chỉ của bạn (Phường)'}*/}
-                                {/*placeholderTextColor={'#6f6f6f'}*/}
-                                {/*onChangeText = {(inputpIDWard)=>this.setState({idWard:inputpIDWard, error:''})}*/}
-                                {/*value = {this.state.idWard}*/}
-                                {/*/>*/}
                             </View>
                         </View>
                         <View style={styles.input}>
@@ -250,6 +201,7 @@ class UpdateInfoUser extends Component<Props>{
                                 />
                             </View>
                         </View>
+
 
                     </View>
                     <View style={{flex:45}}>
@@ -292,8 +244,6 @@ class UpdateInfoUser extends Component<Props>{
 
     selectWard=(id)=>{
         this.setState({selectDistrict:id});
-        // console.log(id.itemValue);
-        // console.log(id);
         axios.get('http://food-delivery-server.herokuapp.com/ward/getAllByDistrict?id='+id).
         then(response=>{
             this.setState({ward:response.data});

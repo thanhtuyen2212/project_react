@@ -19,7 +19,7 @@ const iconMinus = (<Icon name="minus-circle" size={20} color="red" />);
 const iconArrowLeft = (<Icon name="angle-left" size={30} color="white" />);
 const  {height: HEIGHT} = Dimensions.get('window')
 
-export default class Basket extends Component{
+class Basket extends Component{
 
     constructor(props){
         super(props);
