@@ -25,7 +25,7 @@ import MapStore from './src/components/Map/MapStore';
 import Main from './src/components/Main/main';
 import Setting from './src/components/Setting/set-ting';
 import SuccessUpdate from './src/components/SuccessUpdate/success-update';
-
+import Notification from './src/components/Notification/notification';
 
 import Icon from "react-native-vector-icons/FontAwesome";
 const iconHome =()=> (<Icon name="home" size={25} color="#2fd541" />);
@@ -34,6 +34,7 @@ const iconDelivery =()=> (<Icon name="truck" size={25} color="#2fd541" />);
 const iconUser =()=> (<Icon name="user" size={25} color="#2fd541" />);
 const iconUpdate =()=> (<Icon name="edit" size={25} color="#2fd541" />);
 const iconDistance =()=> (<Icon name="map-marker" size={25} color="#2fd541" />);
+const iconNoti =()=> (<Icon name="bell" size={25} color="#2fd541" />);
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -78,23 +79,17 @@ export default class App extends Component<Props> {
                                     hideNavBar={true}
                                     icon={iconBasket}
                                 />
-                                {/*<Scene*/}
-                                    {/*key = 'login'*/}
-                                    {/*component = {Login}*/}
-                                    {/*hideNavBar={true}*/}
-                                    {/*icon = {iconUser}*/}
-                                {/*/>*/}
+                                <Scene
+                                    key = 'notification'
+                                    component = {Notification}
+                                    hideNavBar={true}
+                                    icon={iconNoti}
+                                />
                                 {/*<Scene*/}
                                     {/*key = 'notification'*/}
-                                    {/*component = {Login}*/}
+                                    {/*component = {Notification}*/}
                                     {/*hideNavBar={true}*/}
-                                    {/*icon = {iconUser}*/}
-                                {/*/>*/}
-                                {/*<Scene*/}
-                                    {/*key = 'updateInfoUser'*/}
-                                    {/*component = {UpdateInfoUser}*/}
-                                    {/*hideNavBar={true}*/}
-                                    {/*icon = {iconUpdate}*/}
+                                    {/*icon = {iconNoti()}*/}
                                 {/*/>*/}
                                 <Scene
                                     key = 'main'
