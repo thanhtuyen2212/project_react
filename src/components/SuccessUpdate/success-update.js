@@ -68,7 +68,6 @@ class SuccessUpdate extends Component{
     setWard(idDistrict, idWard){
         axios.get('http://food-delivery-server.herokuapp.com/ward/getAllByDistrict?id='+idDistrict).
         then(response => {
-            console.log("Toan bo phuong: "+response);
             this.setState({ward : response.data});
             this.selectWard(idWard);
         }).catch(error =>{
